@@ -3,20 +3,26 @@ import {SignedIn,SignedOut, SignInButton, SignUpButton, UserButton} from "@clerk
 
 const Header = () => {
     return (
-        <div> <SignedOut>
+        <div className="fixed top-0"> 
+            <nav>
+                <Link href = "/">
+                    <Image/>
+                </Link>
+            </nav>
+            <SignedOut>
                 <SignInButton />
                 <SignUpButton>
                   <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
                     Sign Up
                   </button>
                 </SignUpButton>
-              </SignedOut>
+            </SignedOut>
               {/* Show the user button when the user is signed in */}
-              <SignedIn>
+            <SignedIn>
                 <UserButton />
-              </SignedIn>
+            </SignedIn>
         </div>
     )
 }
 
-export default Header
+export default Header;
