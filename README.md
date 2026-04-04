@@ -1,87 +1,96 @@
-FinAI: AI-Powered Financial Management Assistant
-FinAI is a modern, full-stack financial tracking application designed to simplify personal budgeting through automation. By leveraging the Gemini 2.5 Flash model, users can scan receipts to automatically categorize expenses, track recurring subscriptions, and manage multiple accounts with real-time balance updates.
+# FinAI: AI-Powered Financial Management Assistant
 
-<img width="1470" alt="Screenshot 2024-12-10 at 9 45 45 AM" src="https://github.com/Apathbyte/FinAI/blob/main/public/banner.png">
+**FinAI** is a modern, full-stack financial tracking application designed to simplify personal budgeting through automation. By leveraging the **Gemini 2.5 Flash** model, users can scan receipts to automatically categorize expenses, track recurring subscriptions, and manage multiple accounts with real-time balance updates.
 
-🚀 Key Features
-AI Receipt Scanning: Powered by Google Gemini to extract merchant names, amounts, and categories from images.
+## 🚀 Key Features
 
-Multi-Account Management: Create and track balances across different bank accounts or credit cards.
+* **AI Receipt Scanning:** Powered by Google Gemini 2.5 Flash to extract merchant names, amounts, and categories from images with high precision.
+* **Multi-Account Management:** Create and track balances across different bank accounts or credit cards.
+* **Transaction Automation:** Support for recurring transactions (Daily, Weekly, Monthly, Yearly) with automatic balance adjustment logic.
+* **Smart Categorization:** Automatic expense tagging to visualize spending habits across housing, entertainment, groceries, and more.
+* **Security & Protection:**
+    * **Clerk Auth:** Secure user authentication and onboarding flows.
+    * **ArcJet:** Native rate-limiting and bot protection for sensitive Server Actions.
+* **Email Notifications:** Transaction summaries and alerts powered by **Resend**.
 
-Transaction Automation: Support for recurring transactions (Daily, Weekly, Monthly, Yearly) with automatic balance adjustment.
+## 🛠️ Technical Stack
 
-Smart Categorization: Automatic expense tagging to visualize spending habits.
+* **Framework:** [Next.js 15+](https://nextjs.org/) (App Router)
+* **Language:** TypeScript / JavaScript
+* **Database:** PostgreSQL (via [Prisma ORM](https://www.prisma.io/))
+* **AI Engine:** [Google Generative AI](https://aistudio.google.com/) (Gemini 2.5 Flash)
+* **Security:** [ArcJet](https://arcjet.com/) (Rate Limiting) & [Clerk](https://clerk.com/) (Auth)
+* **Styling:** Tailwind CSS & Shadcn UI
 
-Security & Protection: * Clerk Auth: Secure user authentication and onboarding.
+## 📋 Prerequisites
 
-ArcJet: Native rate-limiting and bot protection for server actions.
-
-Email Notifications: Transaction summaries and alerts powered by Resend.
-
-🛠️ Technical Stack
-Framework: Next.js 15+ (App Router)
-
-Language: TypeScript / JavaScript
-
-Database: PostgreSQL (via Prisma ORM)
-
-AI Engine: Google Generative AI (Gemini 2.5 Flash)
-
-Security: ArcJet (Rate Limiting) & Clerk (Auth)
-
-Styling: Tailwind CSS & Shadcn UI
-
-📋 Prerequisites
 Before running the project, ensure you have:
+* Node.js v18+ 
+* A PostgreSQL database (Supabase or Neon recommended)
+* API Keys for Clerk, Google AI Studio, ArcJet, and Resend
 
-Node.js v18+
+## ⚙️ Installation & Setup
 
-A PostgreSQL database (Supabase or Neon recommended)
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/Apathbyte/FinAI.git](https://github.com/Apathbyte/FinAI.git)
+    cd FinAI
+    ```
 
-API Keys for Clerk, Google AI Studio, ArcJet, and Resend
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-⚙️ Installation & Setup
-Clone the repository:
+3.  **Environment Variables:**
+    Create a `.env` file in the root directory and populate it with the following:
+    ```env
+    DATABASE_URL=
+    DIRECT_URL=
 
-Bash
-'''git clone https://github.com/Apathbyte/FinAI.git
-cd FinAI'''
-Install dependencies:
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+    CLERK_SECRET_KEY=
+    NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+    NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+    NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/onboarding
+    NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
 
-Bash
-npm install
-Environment Variables:
-Create a .env file in the root directory and populate it with the following:
+    GEMINI_API_KEY=
+    RESEND_API_KEY=
+    ARCJET_KEY=
+    ```
 
-Code snippet
-DATABASE_URL=your_postgresql_url
-DIRECT_URL=your_direct_postgresql_url
+4.  **Database Migration:**
+    ```bash
+    npx prisma generate
+    npx prisma db push
+    ```
 
-'''NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-CLERK_SECRET_KEY=sk_test_...
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/onboarding
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
+5.  **Run Development Server:**
+    ```bash
+    npm run dev
+    ```
 
-GEMINI_API_KEY=your_gemini_api_key
-RESEND_API_KEY=re_...
-ARCJET_KEY=aj_...'''
-Database Migration:
+## 🏗️ Project Architecture
 
-Bash
-'''npx prisma generate
-npx prisma db push'''
-Run Development Server:
+The application follows a **Server Actions** pattern for data mutations, ensuring a secure and fast communication layer between the frontend and the database.
 
-Bash
-'''npm run dev'''
+* `actions/`: Contains Next.js Server Actions for transactions, accounts, and receipt processing.
+* `lib/`: Core configuration for Prisma, ArcJet, and third-party clients.
+* `components/`: Reusable UI components built with Tailwind and Shadcn.
 
-🏗️ Project Architecture
-The application follows a Server Actions pattern for data mutations, ensuring a secure and fast communication layer between the frontend and the database.
+## 🛡️ Security Implementation
 
-actions/: Contains Next.js Server Actions for transactions, accounts, and receipt processing.
+FinAI implements **Shielded Server Actions** using ArcJet. This prevents automated bots from draining your Gemini API credits by enforcing rate limits per user ID.
 
-lib/: Core configuration for Prisma, ArcJet, and third-party clients.
+```javascript
+const decision = await aj.protect(req, {
+  userId,
+  requested: 1, 
+});
+// Blocks request if rate limit is exceeded
 
-components/: Reusable UI components built with Tailwind and Shadcn.
+## 📄 License
+
+This project is licensed under the **MIT License**.
+## Do Whatever the fuck you want with this code - Bidhan
