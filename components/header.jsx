@@ -75,5 +75,11 @@ const Header = async () => {
     </header>
   );
 };
+      </nav>
+    </header>
+  );
+};
+
+export default Header;
 
 export default Header;
