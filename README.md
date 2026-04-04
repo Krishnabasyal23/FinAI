@@ -79,6 +79,12 @@ The application follows a **Server Actions** pattern for data mutations, ensurin
 * `lib/`: Core configuration for Prisma, ArcJet, and third-party clients.
 * `components/`: Reusable UI components built with Tailwind and Shadcn.
 
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+`Do Whatever the fuck you want with this code - Bidhan`
+
 ## 🛡️ Security Implementation
 
 FinAI implements **Shielded Server Actions** using ArcJet. This prevents automated bots from draining your Gemini API credits by enforcing rate limits per user ID.
@@ -89,8 +95,3 @@ const decision = await aj.protect(req, {
   requested: 1, 
 });
 // Blocks request if rate limit is exceeded
-
-## 📄 License
-
-This project is licensed under the **MIT License**.
-## Do Whatever the fuck you want with this code - Bidhan
